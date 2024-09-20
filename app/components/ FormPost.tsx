@@ -5,9 +5,10 @@ import { type SubmitHandler, useForm } from "react-hook-form"
 
 interface FormProps {
     submit: SubmitHandler<FormInputPost>
+    isEditing: boolean
 }
 
-const  FormPost: FC<FormProps> = ({submit}) => {
+const  FormPost: FC<FormProps> = ({submit, isEditing}) => {
     const { register, handleSubmit } = useForm<FormInputPost>();
     
   return (
@@ -34,7 +35,12 @@ const  FormPost: FC<FormProps> = ({submit}) => {
             <option>management</option>
             <option>programing</option>
         </select>
-        <button type="submit" className="btn btn-outline w-full max-w-lg btn-primary">投稿</button>
+        { isEditing ? (
+            <button type="button" className="btn btn-outline w-full max-w-lg btn-success">更新</button>
+        ): (
+            <button type="submit" className="btn btn-outline w-full max-w-lg btn-primary">投稿</button>
+        )}
+
     </form>
   )
 }
