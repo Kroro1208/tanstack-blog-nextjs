@@ -1,11 +1,15 @@
 "use client";
-import { useForm } from "react-hook-form"
+import type { FormInputPost } from "@/types/type";
+import type { FC } from "react";
+import { type SubmitHandler, useForm } from "react-hook-form"
 
-const  FormPost = () => {
-    const { register, handleSubmit } = useForm();
-    const submit = (data) => {
-        console.log(data);
-    }
+interface FormProps {
+    submit: SubmitHandler<FormInputPost>
+}
+
+const  FormPost: FC<FormProps> = ({submit}) => {
+    const { register, handleSubmit } = useForm<FormInputPost>();
+    
   return (
     <form
         onSubmit={handleSubmit(submit)}
