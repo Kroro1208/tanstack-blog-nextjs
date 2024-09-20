@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Icon from "../../public/blog.png"
+import Image from "next/image";
 
 const Navbar: React.FC = () => {
   return (
@@ -6,7 +8,7 @@ const Navbar: React.FC = () => {
         <div className="container">
             <div className="flex-1 p-5">
                 <Link href="/">
-                    Icon
+                    <Image src={Icon} width={80} height={80} alt="icon"/>
                 </Link>
             </div>
             <div className="flex-none">
