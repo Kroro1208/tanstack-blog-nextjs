@@ -3,6 +3,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { FormInputPost } from "@/types/type";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import type { Tag } from "@prisma/client";
 
 interface FormPostProps {
   submit: SubmitHandler<FormInputPost>;
@@ -10,7 +11,7 @@ interface FormPostProps {
 }
 
 const FormPost: React.FC<FormPostProps> = ({ submit, isEditing }) => {
-    const { data: dataTags, isLoading: isLoadingTags } = useQuery({
+    const { data: dataTags, isLoading: isLoadingTags } = useQuery<Tag[]>({
         queryKey: ["tags"],
         queryFn: async () => {
             const response = await axios.get('/api/tags');
@@ -42,24 +43,23 @@ const FormPost: React.FC<FormPostProps> = ({ submit, isEditing }) => {
                     className="textarea textarea-bordered h-24"
                     placeholder="内容を入力"/>
             </div>
-            <div className="form-control">
-                <label className="label" htmlFor="tag">
-                    <span className="label-text">タグ</span>
-                </label>
-                <select 
-                    id="tag"
-                    {...register("tag")} 
-                    className="select select-bordered w-full" 
-                    defaultValue="">
-                    <option value="" disabled>タグを選択</option>
-                    <option value="tech">Tech</option>
-                    <option value="business">Business</option>
-                    <option value="ai">AI</option>
-                    <option value="money">Money</option>
-                    <option value="management">Management</option>
-                    <option value="programming">Programming</option>
-                </select>
-            </div>
+            {isLoadingTags ? ("ローディング中です") : (
+                <div className="form-control">
+                    <label className="label" htmlFor="tag">
+                        <span className="label-text">タグ</span>
+                    </label>
+                    <select 
+                        id="tag"
+                        {...register("tag")} 
+                        className="select select-bordered w-full" 
+                        defaultValue="">
+                        <option value="" disabled>タグを選択</option>
+                        { dataTags?.map((item) => (
+                            <option key={item.id} value={item.id}>{item.name}</option>
+                        ))}
+                    </select>
+                </div>
+            )}
             { isEditing ? (
             <button type="button" className="btn btn-outline w-full btn-success">更新</button>
         ): (
