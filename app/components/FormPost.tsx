@@ -43,7 +43,11 @@ const FormPost: React.FC<FormPostProps> = ({ submit, isEditing }) => {
                     className="textarea textarea-bordered h-24"
                     placeholder="内容を入力"/>
             </div>
-            {isLoadingTags ? ("ローディング中です") : (
+            {isLoadingTags ? (
+                <div className="flex justify-center items-center">
+                    <span className="loading loading-ring loading-lg" />
+                </div>
+            ) : (
                 <div className="form-control">
                     <label className="label" htmlFor="tag">
                         <span className="label-text">タグ</span>
