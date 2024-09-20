@@ -2,7 +2,7 @@
 import type { SubmitHandler } from "react-hook-form"
 import type { FormInputPost } from "@/types/type"
 import BackButton from "../components/BackButton";
-import FormPost from "../components/ FormPost";
+import FormPost from "../components/FormPost";
 
 const CreatePage = () => {
     const handleCreatePost: SubmitHandler<FormInputPost> = (data) => {

@@ -1,5 +1,5 @@
 "use client";
-import FormPost from "@/app/components/ FormPost";
+import FormPost from "@/app/components/FormPost";
 import BackButton from "@/app/components/BackButton";
 import type { FormInputPost } from "@/types/type";
 import type { SubmitHandler } from "react-hook-form";
