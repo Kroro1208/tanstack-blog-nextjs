@@ -14,6 +14,13 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
     },
+    container: {
+      center: true,
+      padding: 'irem',
+      screens: {
+        '2xl': '1000px'
+      }
+    }
   },
   plugins: [
     daisyui
