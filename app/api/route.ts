@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -5,7 +6,7 @@ export async function GET() {
         const tags = await db.tag.findMany();
         return NextResponse.json(tags, {status: 200})
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
         return NextResponse.json({message: "データが取得できませんでした"})
     }
 }

@@ -54,7 +54,7 @@ const FormPost: React.FC<FormPostProps> = ({ submit, isEditing }) => {
                     </label>
                     <select 
                         id="tag"
-                        {...register("tag")} 
+                        {...register("tagId")} 
                         className="select select-bordered w-full" 
                         defaultValue="">
                         <option value="" disabled>タグを選択</option>
