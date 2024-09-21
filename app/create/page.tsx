@@ -12,7 +12,7 @@ const CreatePage = () => {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
 
-    const { mutate: createPost, isLoading } = useMutation({
+    const { mutate: createPost, isPending } = useMutation({
         mutationFn: (newPost: FormInputPost) => {
             return axios.post('/api/posts/create', newPost);
         },
@@ -45,13 +45,13 @@ const CreatePage = () => {
                         <span>{error}</span>
                     </div>
                 )}
-                <FormPost submit={handleCreatePost} isEditing={false} isLoading={isLoading} />
-                {isLoading && (
+                <FormPost submit={handleCreatePost} isEditing={false} />
+                {isPending && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-base-100 p-4 rounded-box flex items-center space-x-2">
                             <span className="loading loading-spinner loading-md" />
-                            <p>投稿を作成中...</p>
-                        </div>
+                            { isPending && <span className='loading loading-spinner' />}
+                            </div>
                     </div>
                 )}
             </div>

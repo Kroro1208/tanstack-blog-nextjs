@@ -12,8 +12,8 @@ interface ButtonActionProps {
 
 const ButtonAction: FC<ButtonActionProps> = ({id}) => {
   const router = useRouter();
-  const { mutate: deletePost } = useMutation({
-    mutationFn: async() => {
+  const { mutate: deletePost, isPending } = useMutation({
+    mutationFn: async () => {
       return axios.delete(`/api/posts/${id}`)
     },
     onError: (error) => {
@@ -24,9 +24,10 @@ const ButtonAction: FC<ButtonActionProps> = ({id}) => {
       router.refresh();
     }
   })
+
   return (
     <div className='flex gap-2'>
-      <Link href="/edit/1">
+      <Link href={`/edit/${id}`}>
         <button type='button' className="btn btn-outline btn-success">
             <Pencil />編集
         </button>
@@ -39,10 +40,16 @@ const ButtonAction: FC<ButtonActionProps> = ({id}) => {
         }}
         type='button'
         className="btn btn-outline btn-error"
+        disabled={isPending}
       >
-        <Trash2 />削除
+        { isPending && <span className='loading loading-spinner' />}
+        { isPending ? "削除中..." : (
+          <>
+            <Trash2 />削除
+          </>
+        )}
       </button>
-      </div>
+    </div>
   )
 }
 
