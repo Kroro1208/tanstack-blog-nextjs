@@ -8,9 +8,11 @@ import type { Tag } from "@prisma/client";
 interface FormPostProps {
   submit: SubmitHandler<FormInputPost>;
   isEditing: boolean;
+  isSubmitting: boolean;
+  initialValue?: FormInputPost
 }
 
-const FormPost: React.FC<FormPostProps> = ({ submit, isEditing }) => {
+const FormPost: React.FC<FormPostProps> = ({ submit, isEditing, initialValue, isSubmitting }) => {
     const { data: dataTags, isLoading: isLoadingTags } = useQuery<Tag[]>({
         queryKey: ["tags"],
         queryFn: async () => {
@@ -18,7 +20,9 @@ const FormPost: React.FC<FormPostProps> = ({ submit, isEditing }) => {
             return response.data;
         }
     })
-    const { register, handleSubmit } = useForm<FormInputPost>();
+    const { register, handleSubmit } = useForm<FormInputPost>({
+      defaultValues: initialValue
+    });
 
     return (
         <form onSubmit={handleSubmit(submit)} className="space-y-6">
@@ -64,11 +68,23 @@ const FormPost: React.FC<FormPostProps> = ({ submit, isEditing }) => {
                     </select>
                 </div>
             )}
-            { isEditing ? (
-            <button type="button" className="btn btn-outline w-full btn-success">更新</button>
-        ): (
-            <button type="submit" className="btn btn-outline w-full btn-primary">投稿</button>
-        )}
+           { isEditing ? (
+                <button 
+                    type="submit"
+                    className={`btn btn-outline w-full btn-success ${isSubmitting ? 'loading' : ''}`}
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? '更新中...' : '更新'}
+                </button>
+            ) : (
+                <button 
+                    type="submit" 
+                    className={`btn btn-outline w-full btn-primary ${isSubmitting ? 'loading' : ''}`}
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? '投稿中...' : '投稿'}
+                </button>
+            )}
         </form>
     );
 };

@@ -15,25 +15,28 @@ interface PostCardProps {
 
 const PostCard: FC<PostCardProps> = ({post}) => {
     const {id, title, content, tag } = post;
-  return (
-    <div className="card glass w-full">
-        <figure>
-            <Image
-            src={thumnail}
-            alt="car!" />
-        </figure>
-        <div className="card-body">
-            <h2 className="card-title">{title}</h2>
-            <p>{content}</p>
-            <div className="badge badge-accent">{tag.name}</div>
-            <div className="card-actions justify-end">
-                <Link href={`/blog/${id}`}>
-                    <button type="button" className="btn btn-primary">記事を読む</button>
-                </Link>
+    return (
+        <div className="card glass w-full h-[400px] flex flex-col">
+            <figure className="h-48 relative">
+                <Image
+                    src={thumnail}
+                    alt="thumbnail"
+                    layout="fill"
+                    objectFit="cover"
+                />
+            </figure>
+            <div className="card-body flex-1 overflow-hidden">
+                <h2 className="card-title text-lg font-bold mb-2 line-clamp-2">{title}</h2>
+                <p className="mb-2 line-clamp-3 text-sm">{content}</p>
+                <div className="badge badge-accent mb-2">{tag.name}</div>
+                <div className="card-actions justify-end mt-auto">
+                    <Link href={`/blog/${id}`}>
+                        <button type="button" className="btn btn-primary btn-sm">記事を読む</button>
+                    </Link>
+                </div>
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default PostCard

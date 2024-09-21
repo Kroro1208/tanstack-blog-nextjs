@@ -45,7 +45,7 @@ const CreatePage = () => {
                         <span>{error}</span>
                     </div>
                 )}
-                <FormPost submit={handleCreatePost} isEditing={false} />
+                <FormPost submit={handleCreatePost} isEditing={false} isSubmitting={isPending}/>
                 {isPending && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-base-100 p-4 rounded-box flex items-center space-x-2">
