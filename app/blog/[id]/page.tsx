@@ -51,7 +51,7 @@ const PostDetailPage: FC<BlogDetailProps> = async ({ params }) => {
             {post.content}
           </div>
           <div className="flex justify-between items-center">
-            <ButtonAction />
+            <ButtonAction id={params.id}/>
             <div className="flex space-x-4">
               <button type="button" className="btn btn-ghost btn-sm">
                 <ThumbsUp className="w-4 h-4 mr-1" />
