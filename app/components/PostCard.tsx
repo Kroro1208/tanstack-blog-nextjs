@@ -14,7 +14,7 @@ interface PostCardProps {
 }
 
 const PostCard: FC<PostCardProps> = ({post}) => {
-    const { title, content, tag } = post;
+    const {id, title, content, tag } = post;
   return (
     <div className="card glass w-full">
         <figure>
@@ -27,7 +27,7 @@ const PostCard: FC<PostCardProps> = ({post}) => {
             <p>{content}</p>
             <div className="badge badge-accent">{tag.name}</div>
             <div className="card-actions justify-end">
-                <Link href="/blog/1">
+                <Link href={`/blog/${id}`}>
                     <button type="button" className="btn btn-primary">記事を読む</button>
                 </Link>
             </div>
