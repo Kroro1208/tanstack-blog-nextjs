@@ -2,6 +2,8 @@ import type { FC } from "react";
 import { Calendar, Tag, ThumbsUp, MessageCircle, Share2 } from "lucide-react";
 import ButtonAction from "@/app/components/ButtonAction";
 import { db } from "@/lib/db";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface BlogDetailProps {
   params: {
@@ -34,7 +36,12 @@ const PostDetailPage: FC<BlogDetailProps> = async ({ params }) => {
     <div className="max-w-3xl mx-auto px-4 py-8">
       <article className="bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="p-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">{post.title}</h1>
+          <div className="flex justify-between">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">{post.title}</h1>
+            <Link href="/">
+              <Button >戻る</Button>
+            </Link>
+          </div>
           <div className="flex items-center space-x-4 mb-6">
             <div className="flex items-center text-gray-500">
               <Calendar className="w-4 h-4 mr-1" />

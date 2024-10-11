@@ -14,7 +14,7 @@ interface EditPostProps {
     }
 }
 
-const EditPage: FC<EditPostProps> = ({params}) => {
+const EditPage: FC<EditPostProps> = ({ params }) => {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
     const {data: dataPost, isPending: isPendingUpdate} = useQuery({
