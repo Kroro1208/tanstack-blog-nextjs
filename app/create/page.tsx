@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form"
-import type { FormInputPost } from "@/types/type"
 import BackButton from "../components/BackButton";
 import FormPost from "../components/FormPost";
 import { useMutation } from "@tanstack/react-query";
@@ -13,8 +12,12 @@ const CreatePage = () => {
     const [error, setError] = useState<string | null>(null);
 
     const { mutate: createPost, isPending } = useMutation({
-        mutationFn: (newPost: FormInputPost) => {
-            return axios.post('/api/posts/create', newPost);
+        mutationFn: (newPost: FormData) => {
+            return axios.post('/api/posts/create', newPost, {
+                headers: {
+                    "Content-Type": 'multipart/formData'
+                },
+            });
         },
         onError: (error) => {
             console.error(error);
@@ -26,7 +29,7 @@ const CreatePage = () => {
         }
     });
 
-    const handleCreatePost: SubmitHandler<FormInputPost> = (data) => {
+    const handleCreatePost: SubmitHandler<FormData> = (data) => {
         setError(null);
         createPost(data);
     }
