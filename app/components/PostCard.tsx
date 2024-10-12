@@ -1,25 +1,26 @@
 import Image from "next/image"
-import thumnail from "../../public/pic1.jpeg"
 import Link from "next/link"
 import type { Tag } from "@prisma/client";
 import type { FC } from "react";
+import thumnail from "../../public/pic1.jpeg"
 
 interface PostCardProps {
     post: {
         id: string;
         title: string;
+        image: string | null;
         content: string;
         tag: Tag;
     }
 }
 
 const PostCard: FC<PostCardProps> = ({post}) => {
-    const {id, title, content, tag } = post;
+    const {id, title, image, content, tag } = post;
     return (
         <div className="card glass w-full h-[400px] flex flex-col">
             <figure className="h-48 relative">
                 <Image
-                    src={thumnail}
+                    src={image ?? thumnail}
                     alt="thumbnail"
                     layout="fill"
                     objectFit="cover"

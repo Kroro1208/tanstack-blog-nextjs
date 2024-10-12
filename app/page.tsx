@@ -6,6 +6,7 @@ async function getPost() {
     select: {
       id: true,
       title: true,
+      image: true,
       content: true,
       tag: true
     },
