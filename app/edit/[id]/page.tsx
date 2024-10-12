@@ -1,7 +1,6 @@
 "use client";
 import FormPost from "@/app/components/FormPost";
 import BackButton from "@/app/components/BackButton";
-import type { FormInputPost } from "@/types/type";
 import type { SubmitHandler } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState, type FC } from "react";
@@ -26,7 +25,7 @@ const EditPage: FC<EditPostProps> = ({ params }) => {
     });
 
     const { mutate: updatePost, isPending: isSubmiting } = useMutation({
-        mutationFn: (newPost: FormInputPost) => {
+        mutationFn: (newPost: FormData) => {
             return axios.patch(`/api/posts/${params.id}`, newPost);
         },
         onError: (error) => {
@@ -39,7 +38,7 @@ const EditPage: FC<EditPostProps> = ({ params }) => {
         }
     });
 
-    const handleEditPost: SubmitHandler<FormInputPost> = (data) => {
+    const handleEditPost: SubmitHandler<FormData> = (data) => {
         updatePost(data);
     };
 
