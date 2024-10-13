@@ -1,11 +1,8 @@
 "use client";
 import FormPost from "@/app/components/FormPost";
 import BackButton from "@/app/components/BackButton";
-import type { SubmitHandler } from "react-hook-form";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState, type FC } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useUpdatePost } from "@/app/hooks/useUpdatePost";
+import type { FC } from "react";
 
 interface EditPostProps {
     params: {
@@ -14,33 +11,7 @@ interface EditPostProps {
 }
 
 const EditPage: FC<EditPostProps> = ({ params }) => {
-    const [error, setError] = useState<string | null>(null);
-    const router = useRouter();
-    const {data: dataPost, isPending: isPendingUpdate} = useQuery({
-        queryKey: ["posts", params.id],
-        queryFn: async () => {
-            const response = await axios.get(`/api/posts/${params.id}`);
-            return response.data;
-        }
-    });
-
-    const { mutate: updatePost, isPending: isSubmiting } = useMutation({
-        mutationFn: (newPost: FormData) => {
-            return axios.patch(`/api/posts/${params.id}`, newPost);
-        },
-        onError: (error) => {
-            console.error(error);
-            setError("投稿の作成中にエラーが発生しました。もう一度お試しください。");
-        },
-        onSuccess: () => { 
-            router.push("/");
-            router.refresh();
-        }
-    });
-
-    const handleEditPost: SubmitHandler<FormData> = (data) => {
-        updatePost(data);
-    };
+    const { dataPost, isPendingUpdate, isSubmiting, error, handleEditPost } = useUpdatePost(params.id);
 
     if(isPendingUpdate) {
         return (

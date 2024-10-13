@@ -1,35 +1,19 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { Calendar, Tag, ThumbsUp, MessageCircle, Share2 } from "lucide-react";
 import ButtonAction from "@/app/components/ButtonAction";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import defaultThumbnail from "../../public/pic1.jpeg"
-
-interface Post {
-    id: string;
-    title: string;
-    content: string;
-    image: string | null;
-    createdAt: string;
-    tag: { name: string };
-  }
-
+import { usePostDetail } from "../hooks/usePostDetail";
 interface BlogDetailProps {
     postId: string
 }
 
 const PostDetail: React.FC<BlogDetailProps> = ({ postId }) => {
-  const { data: post, isLoading, error } = useQuery<Post>({
-    queryKey: ["post", postId],
-    queryFn: async () => {
-      const response = await axios.get(`/api/posts/${postId}`);
-      return response.data;
-    },
-  });
+
+  const { data: post, isLoading, error } = usePostDetail(postId);
 
   if (isLoading) return <div className="text-center py-10">読み込み中...</div>;
   if (error) return <div className="text-center py-10">エラーが発生しました。</div>;
