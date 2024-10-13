@@ -1,7 +1,8 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import path from "node:path";
-import { writeFile } from "node:fs/promises";
+import { writeFile, unlink } from "node:fs/promises";
+
 interface contextProps {
     params: {
         postId: string;
@@ -70,14 +71,39 @@ export async function PATCH(req: Request, context: contextProps) {
 export async function DELETE(req: Request, context: contextProps) {
     try {
         const { params } = context;
+        
+        // 投稿を取得
+        const post = await db.post.findUnique({
+            where: {
+                id: params.postId
+            }
+        });
+
+        if (!post) {
+            return NextResponse.json({ message: "投稿が見つかりません" }, { status: 404 });
+        }
+
+        // 画像ファイルが存在する場合、削除
+        if (post.image) {
+            const imagePath = path.join(process.cwd(), 'public', post.image);
+            try {
+                await unlink(imagePath);
+            } catch (error) {
+                console.error('画像ファイルの削除に失敗しました:', error);
+                // 画像の削除に失敗しても、投稿の削除は続行
+            }
+        }
+
+        // データベースから投稿を削除
         await db.post.delete({
             where: {
                 id: params.postId
             }
         });
-        return new Response(null, {status: 204});
+
+        return new Response(null, { status: 204 });
     } catch (error) {
         console.log(error);
-        return NextResponse.json({message: "記事の削除に失敗しました"}, {status: 500});
+        return NextResponse.json({ message: "記事の削除に失敗しました" }, { status: 500 });
     }
 }
