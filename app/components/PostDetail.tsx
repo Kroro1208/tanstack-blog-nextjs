@@ -7,6 +7,7 @@ import ButtonAction from "@/app/components/ButtonAction";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import defaultThumbnail from "../../public/pic1.jpeg"
 
 interface Post {
     id: string;
@@ -56,10 +57,20 @@ const PostDetail: React.FC<BlogDetailProps> = ({ postId }) => {
               {post.tag.name}
             </span>
           </div>
-          {post.image && (
+          {post.image ? (
             <div className="mb-6">
               <Image
                 src={post.image}
+                alt={post.title}
+                width={600}
+                height={400}
+                className="rounded-lg object-cover w-full"
+              />
+            </div>
+          ) : (
+            <div className="mb-6">
+              <Image
+                src={defaultThumbnail}
                 alt={post.title}
                 width={600}
                 height={400}

@@ -16,11 +16,13 @@ interface PostCardProps {
 
 const PostCard: FC<PostCardProps> = ({post}) => {
     const {id, title, image, content, tag } = post;
+    const imageSrc = image ? image : thumnail;
+
     return (
         <div className="card glass w-full h-[400px] flex flex-col">
             <figure className="h-48 relative">
                 <Image
-                    src={image ?? thumnail}
+                    src={imageSrc}
                     alt="thumbnail"
                     layout="fill"
                     objectFit="cover"
